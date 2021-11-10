@@ -3,21 +3,23 @@ const app = new Vue({
     data: {
         mailArr: [],
     },
+    methods: {
+        getMail(){
+            axios
+            .get('https://flynn.boolean.careers/exercises/api/random/mail')
+            .then(response =>{
+                    app.mailArr.push(response.data.response);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        },
+    },
 
     mounted(){
-        axios
-        .get('https://flynn.boolean.careers/exercises/api/random/mail')
-        .then(response =>{
-            // console.log(response);
-            // console.log(response.data.response);
-            while (app.mailArr.length < 10) {
-                app.mailArr.push(response.data.response);
-                
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        for (let i = 0; i < 10; i++) {
+            this.getMail();
+        }
     }
 
 })
